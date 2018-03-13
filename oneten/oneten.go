@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-var trueBlock = "■"
-var falseBlock = "□"
+var trueBlock = "█"
+var falseBlock = " "
 
 // Cell is a representation of a rule 110 state with fixed boundaries left
 // and right.
@@ -59,11 +59,12 @@ func Rule(l, m, r bool) bool {
 
 // Next transitions the cell to its next state, according to the transition rules.
 func (c *Cell) Next() {
-	var l bool
-	var r bool
 	next := make([]bool, len(c.Values))
 
 	for i, m := range c.Values {
+		var l bool
+		var r bool
+
 		if i == 0 {
 			l = c.Left
 		} else {
@@ -72,7 +73,7 @@ func (c *Cell) Next() {
 		if i == len(c.Values)-1 {
 			r = c.Right
 		} else {
-			r = c.Values[i]
+			r = c.Values[i+1]
 		}
 
 		next[i] = Rule(l, m, r)
