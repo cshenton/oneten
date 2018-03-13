@@ -20,6 +20,6 @@ func main() {
 	for i := 0; i < n; i++ {
 		c.Next()
 		fmt.Println(c)
-		time.Sleep(50 * time.Millisecond)
+		time.Sleep(10 * time.Millisecond)
 	}
 }
