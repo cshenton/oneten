@@ -1,6 +1,12 @@
 package oneten
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
+
+var trueBlock = "■"
+var falseBlock = "□"
 
 // Cell is a representation of a rule 110 state with fixed boundaries left
 // and right.
@@ -49,7 +55,6 @@ func Rule(l, m, r bool) bool {
 		return true
 	}
 	return false
-
 }
 
 // Next transitions the cell to its next state, according to the transition rules.
@@ -58,7 +63,7 @@ func (c *Cell) Next() {
 	var r bool
 	next := make([]bool, len(c.Values))
 
-	for i := range c.Values {
+	for i, m := range c.Values {
 		if i == 0 {
 			l = c.Left
 		} else {
@@ -70,7 +75,21 @@ func (c *Cell) Next() {
 			r = c.Values[i]
 		}
 
-		next[i] = false
+		next[i] = Rule(l, m, r)
 	}
 	c.Values = next
+}
+
+// String satisfies the Stringer interface, and makes for nicer printing.
+func (c *Cell) String() string {
+	var str strings.Builder
+
+	for _, v := range c.Values {
+		if v {
+			str.WriteString(trueBlock)
+		} else {
+			str.WriteString(falseBlock)
+		}
+	}
+	return str.String()
 }
